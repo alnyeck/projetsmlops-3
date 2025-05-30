@@ -2,7 +2,7 @@ name: CI‑CD Docker local
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, test ]
 
 jobs:
   build-and-push:
