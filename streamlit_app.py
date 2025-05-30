@@ -66,6 +66,6 @@ if st.button("🔮 Prédire la qualité"):
                       headers={"Content-Type": "application/json"})
     
     if r.status_code == 200:
-        st.success(f"Qualité prédite du vin : {r.json()['prediction']}")
+        st.success(f"Qualité prédite du vin : {r.json()['quality_estimate']}")
     else:
         st.error("Erreur lors de la prédiction.")
