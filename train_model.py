@@ -4,6 +4,7 @@ import mlflow, mlflow.sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import ElasticNet, Ridge, Lasso
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import joblib
 
 # ---------- 1. CLI ----------
 cli = argparse.ArgumentParser()
@@ -11,6 +12,7 @@ cli.add_argument("--model",    required=True,
                  choices=["elasticnet", "ridge", "lasso"])
 cli.add_argument("--alpha",    type=float, default=0.5)
 cli.add_argument("--l1_ratio", type=float, default=0.5)
+cli.add_argument("--output",   type=str, default=None, help="Path to save the trained model")
 args = cli.parse_args()
 
 # ---------- 2. MLflow ----------
@@ -56,3 +58,8 @@ with mlflow.start_run():
 
     mlflow.sklearn.log_model(model, "model")
     print(f"Terminé : {args.model}  alpha={args.alpha}")
+
+    # Save model to output path if specified
+    if args.output:
+        joblib.dump(model, args.output)
+        print(f"Modèle sauvegardé à : {args.output}")
