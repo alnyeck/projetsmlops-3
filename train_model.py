@@ -1,6 +1,7 @@
 import argparse, os, sys
 import pandas as pd, numpy as np
 import mlflow, mlflow.sklearn
+from mlflow.models.signature import ModelSignature, infer_signature
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import ElasticNet, Ridge, Lasso
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
@@ -38,7 +39,8 @@ def log_metrics(y_true, y_pred):
     }
 
 # ---------- 4. Entraînement ----------
-with mlflow.start_run():
+with mlflow.start_run(run_name=args.model):
+    mlflow.log_param("alpha", args.alpha)
     if args.model == "elasticnet":
         model = ElasticNet(alpha=args.alpha, l1_ratio=args.l1_ratio, random_state=42)
         mlflow.log_param("l1_ratio", args.l1_ratio)
@@ -47,12 +49,20 @@ with mlflow.start_run():
     else:
         model = Lasso(alpha=args.alpha, random_state=42)
 
-    mlflow.log_param("alpha", args.alpha)
     model.fit(X_train, y_train)
     preds = model.predict(X_test)
+
+   # Utilisation de `infer_signature` pour générer la signature du modèle
+    signature = infer_signature(X_test, preds)
 
     for k, v in log_metrics(y_test, preds).items():
         mlflow.log_metric(k, float(v))
 
-    mlflow.sklearn.log_model(model, "model")
-    print(f"Terminé : {args.model}  alpha={args.alpha}")
+    try:
+        mlflow.sklearn.log_model(model, artifact_path="model", signature=signature, registered_model_name="wine_quality_model") # Enregistrer le modèle dans le Model Registry
+        print("✅ Modèle loggué dans MLflow.")
+    except Exception as e:
+        print("❌ Erreur lors du log_model :", e)
+
+    print("📍 Artifact URI =", mlflow.get_artifact_uri())
+
