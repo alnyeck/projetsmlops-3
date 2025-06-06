@@ -1,71 +1,86 @@
 import streamlit as st
-import requests, json, pandas as pd
+import requests
+import pandas as pd
+import os
+from urllib.parse import urljoin
 
-st.set_page_config(page_title="Red‑Wine Trainer", layout="wide")
+st.set_page_config(page_title="Red Wine Quality Trainer", layout="centered")
+st.title("🍷 Red Wine Quality MLOps App")
 
-st.title("🍷 Red‑Wine Trainer – Interface Streamlit")
-st.markdown(
-    "Lancez des entraînements MLflow et observez‑les en temps réel dans "
-    "[MLflow UI](http://localhost:5000).")
+# ---------- Configuration de l'URL de l'API ----------
+API_BASE_URL = os.getenv("API_URL", "http://backend:8000")  # Utilise la variable d'environnement ou la valeur par défaut
+TRAIN_ENDPOINT = urljoin(API_BASE_URL, "/train")
+PREDICT_ENDPOINT = urljoin(API_BASE_URL, "/predict")
 
+# ---------- 1. Paramètres d'entraînement ----------
 with st.form("train_form"):
-    model = st.selectbox("Modèle", ["elasticnet", "ridge", "lasso"])
-    alpha = st.slider("alpha", 0.01, 2.0, 0.5, 0.01)
-    l1_ratio = st.slider("l1_ratio (ElasticNet)", 0.0, 1.0, 0.5, 0.05)
-    submitted = st.form_submit_button("🚀 Lancer l'entraînement")
-    if submitted:
-        payload = {"model": model, "alpha": alpha, "l1_ratio": l1_ratio}
-        resp = requests.post("http://api:8000/train",
-                             data=json.dumps(payload),
-                             headers={"Content-Type": "application/json"})
-        if resp.ok:
-            st.success(f"Run démarré : {resp.json()['run_id']}")
-            # Afficher le JSON complet de la réponse
-            st.json(resp.json())  # <-- Streamlit affichera le JSON formaté
+    st.header("🔧 Entraînement du modèle")
+    model_type = st.selectbox("Choisissez un modèle", ["elasticnet", "ridge", "lasso", "randomforest", "gbrt"])
+    alpha = st.number_input("Alpha", value=0.5, step=0.01)
+    l1_ratio = st.number_input("L1 Ratio (ElasticNet uniquement)", value=0.5, step=0.01)
+    train_btn = st.form_submit_button("Lancer l'entraînement")
 
-        else:
-            st.error("Erreur lors de l’appel API")
+    if train_btn:
+        payload = {"model": model_type}
+        if model_type in ["elasticnet", "ridge", "lasso"]:
+            payload["alpha"] = alpha
+        if model_type == "elasticnet":
+            payload["l1_ratio"] = l1_ratio
 
-st.header("🍷 Prévision de la qualité du vin")
+        with st.spinner("Entraînement en cours..."):
+            try:
+                r = requests.post(TRAIN_ENDPOINT, json=payload, timeout=30)
+                r.raise_for_status()
+                resp_json = r.json()
+                st.success(f"✅ Entraînement terminé: Run ID {resp_json.get('run_id', '')}")
 
-# Créer les champs pour toutes les features du dataset
-col1, col2, col3 = st.columns(3)
-with col1:
-    fixed_acidity = st.number_input("Fixed acidity", 4.0, 16.0, 7.0, 0.1)
-    volatile_acidity = st.number_input("Volatile acidity", 0.1, 1.5, 0.5, 0.01)
-    citric_acid = st.number_input("Citric acid", 0.0, 1.0, 0.3, 0.05)
-    residual_sugar = st.number_input("Residual sugar", 0.9, 15.0, 2.5, 0.1)
-with col2:
-    chlorides = st.number_input("Chlorides", 0.01, 0.2, 0.045, 0.005)
-    free_sulfur_dioxide = st.number_input("Free sulfur dioxide", 1, 70, 15, 1)
-    total_sulfur_dioxide = st.number_input("Total sulfur dioxide", 6, 200, 45, 1)
-    density = st.number_input("Density", 0.9900, 1.0050, 0.9968, 0.001)
-with col3:
-    pH = st.number_input("pH", 2.8, 4.0, 3.2, 0.1)
-    sulphates = st.number_input("Sulphates", 0.3, 2.0, 0.6, 0.05)
-    alcohol = st.number_input("Alcohol", 8.0, 15.0, 10.0, 0.1)
+                if "metrics" in resp_json:
+                    st.subheader("📊 Résultats d'entraînement")
+                    metrics = resp_json["metrics"]
+                    cols = st.columns(3)
+                    cols[0].metric("RMSE", round(metrics.get("rmse", 0), 4))
+                    cols[1].metric("MAE", round(metrics.get("mae", 0), 4))
+                    cols[2].metric("R²", round(metrics.get("r2", 0), 4))
 
-# Prédiction
-if st.button("🔮 Prédire la qualité"):
-    payload = {
-        "fixed_acidity": fixed_acidity,
-        "volatile_acidity": volatile_acidity,
-        "citric_acid": citric_acid,
-        "residual_sugar": residual_sugar,
-        "chlorides": chlorides,
-        "free_sulfur_dioxide": free_sulfur_dioxide,
-        "total_sulfur_dioxide": total_sulfur_dioxide,
-        "density": density,
-        "pH": pH,
-        "sulphates": sulphates,
-        "alcohol": alcohol
-    }
+            except requests.exceptions.RequestException as e:
+                st.error(f"❌ Erreur de connexion à l'API: {str(e)}")
+            except ValueError as e:
+                st.error(f"❌ Réponse JSON invalide: {str(e)}")
 
-    r = requests.post("http://api:8000/predict",
-                      data=json.dumps(payload),
-                      headers={"Content-Type": "application/json"})
-    
-    if r.status_code == 200:
-        st.success(f"Qualité prédite du vin : {r.json()['quality_estimate']}")
-    else:
-        st.error("Erreur lors de la prédiction.")
+# ---------- 2. Prédiction ----------
+st.header("🔮 Prédiction de la qualité")
+
+input_fields = {
+    "fixed_acidity": ("Fixed acidity", 5.0),
+    "volatile_acidity": ("Volatile acidity", 0.5),
+    "citric_acid": ("Citric acid", 0.5),
+    "residual_sugar": ("Residual sugar", 2.0),
+    "chlorides": ("Chlorides", 0.1),
+    "free_sulfur_dioxide": ("Free sulfur dioxide", 15.0),
+    "total_sulfur_dioxide": ("Total sulfur dioxide", 30.0),
+    "density": ("Density", 0.995),
+    "pH": ("pH", 3.5),
+    "sulphates": ("Sulphates", 0.5),
+    "alcohol": ("Alcohol", 10.0)
+}
+
+inputs = {}
+for field, (label, default) in input_fields.items():
+    inputs[field] = st.number_input(label, value=default, step=0.01)
+
+if st.button("Prédire la qualité"):
+    with st.spinner("Calcul de la prédiction..."):
+        try:
+            response = requests.post(PREDICT_ENDPOINT, json=inputs, timeout=10)
+            response.raise_for_status()
+
+            result = response.json()
+            if "quality_estimate" in result:
+                st.success(f"🎯 Qualité estimée: {result['quality_estimate']:.1f}/10")
+            else:
+                st.error(f"⚠️ Format de réponse inattendu: {result}")
+
+        except requests.exceptions.RequestException as e:
+            st.error(f"❌ Erreur de connexion: {str(e)}")
+        except ValueError as e:
+            st.error(f"❌ Réponse JSON invalide: {str(e)}")

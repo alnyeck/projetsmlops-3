@@ -1,34 +1,37 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import Optional
 import subprocess, uuid, os
-import mlflow.sklearn
-import numpy as np
+import mlflow.pyfunc
+import pandas as pd
 
 app = FastAPI(title="Red‑Wine MLOps API")
 
+# ----------- TRAIN REQUEST -----------
 class TrainRequest(BaseModel):
-    model: str       # elasticnet | ridge | lasso
-    alpha: float
-    l1_ratio: float | None = None   # ignoré hors ElasticNet
+    model: str  # elasticnet | ridge | lasso | randomforest | gbrt
+    alpha: Optional[float] = None
+    l1_ratio: Optional[float] = None
 
 @app.post("/train")
 def train(req: TrainRequest):
-    """Lance un entraînement MLflow en sous‑processus."""
     run_id = str(uuid.uuid4())[:8]
     cmd = [
         "python", "train_model.py",
-        "--model", req.model,
-        "--alpha", str(req.alpha)
+        "--model", req.model
     ]
-    if req.model == "elasticnet":
-        cmd += ["--l1_ratio", str(req.l1_ratio or 0.5)]
+    if req.alpha is not None:
+        cmd += ["--alpha", str(req.alpha)]
+    if req.model == "elasticnet" and req.l1_ratio is not None:
+        cmd += ["--l1_ratio", str(req.l1_ratio)]
     
     env = os.environ.copy()
     env["MLFLOW_TRACKING_URI"] = env.get("MLFLOW_TRACKING_URI", "http://mlflow:5000")
     subprocess.Popen(cmd, env=env)
+    
     return {"status": "started", "run_id": run_id, "cmd": " ".join(cmd)}
 
-# --- Nouvelle version de PredictRequest avec toutes les features ---
+# ----------- PREDICT REQUEST -----------
 class PredictRequest(BaseModel):
     fixed_acidity: float
     volatile_acidity: float
@@ -44,24 +47,37 @@ class PredictRequest(BaseModel):
 
 @app.post("/predict")
 def predict(inp: PredictRequest):
-    """Prédiction en utilisant un modèle MLflow enregistré."""
-    input_vector = np.array([[
-        inp.fixed_acidity,
-        inp.volatile_acidity,
-        inp.citric_acid,
-        inp.residual_sugar,
-        inp.chlorides,
-        inp.free_sulfur_dioxide,
-        inp.total_sulfur_dioxide,
-        inp.density,
-        inp.pH,
-        inp.sulphates,
-        inp.alcohol
-    ]])
+    try:
+        # Dictionnaire reçu depuis le frontend
+        input_dict = inp.dict()
 
-    # Charger le dernier modèle enregistré dans MLflow
-    model_uri = "models:/wine_quality_model/latest"  # toujours charger la dernière version dans MLflow
-    model = mlflow.sklearn.load_model(model_uri)
-    
-    prediction = model.predict(input_vector)[0]
-    return {"quality_estimate": int(prediction)} # <= classification binaire
+        # Mapping des noms reçus (underscores) vers les noms attendus par le modèle (espaces)
+        rename_map = {
+            "fixed_acidity": "fixed acidity",
+            "volatile_acidity": "volatile acidity",
+            "citric_acid": "citric acid",
+            "residual_sugar": "residual sugar",
+            "chlorides": "chlorides",
+            "free_sulfur_dioxide": "free sulfur dioxide",
+            "total_sulfur_dioxide": "total sulfur dioxide",
+            "density": "density",
+            "pH": "pH",
+            "sulphates": "sulphates",
+            "alcohol": "alcohol"
+        }
+
+        # Conversion du dictionnaire vers DataFrame avec les bons noms de colonnes
+        renamed_input = {rename_map[k]: v for k, v in input_dict.items()}
+        X = pd.DataFrame([renamed_input])
+
+        # Chargement du modèle promu en production
+        model_uri = "models:/RedWineModel/Production"
+        model = mlflow.pyfunc.load_model(model_uri)
+
+        # Prédiction
+        pred = model.predict(X)[0]
+        return {"quality_estimate": round(float(pred), 2)}
+
+    except Exception as e:
+        return {"error": str(e)}
+
