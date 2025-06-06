@@ -579,14 +579,14 @@ jobs:
       - name: Send email notification
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.bell.net
+          server_address: smtp.mail.yahoo.com
           server_port: 465
           secure: true
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: ✅ CI/CD terminé avec succès
-          to: nyeck@sympatico.ca
-          from: GitHub Actions <nyeck@sympatico.ca>
+          to: a_nyeck@yahoo.com
+          from: ${{ secrets.EMAIL_USERNAME }}
           body: |
             Le workflow CI/CD dans le dépôt projetsmlops-3 s'est exécuté avec succès !
 ```
