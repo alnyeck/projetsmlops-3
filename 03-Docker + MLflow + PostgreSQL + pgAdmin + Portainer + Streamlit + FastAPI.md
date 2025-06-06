@@ -1,6 +1,6 @@
 # GUIDE – MLOps **Red Wine Quality**
 
-Docker + MLflow + PostgreSQL + pgAdmin + Portainer + **FastAPI** + **Streamlit**
+Docker + MLflow + PostgreSQL + pgAdmin + Portainer + **FastAPI** + **Streamlit** + **CI/CD GitHub Actions** + **Docker Hub**
 
 > **Extension par rapport à la version précédente** :
 > – Ajout d’une API REST (FastAPI : port 8000)
@@ -479,6 +479,117 @@ networks:  # Nouveau réseau ajouté
 ```
 
 <br/>
+---
+## MISE EN PLACE D’UNE PIPELINE CI/CD
+
+### ╔════════════════════════════════ ASCII : Vue d’ensemble ═══════════════════════════════╗
+
+```
+ Développeur ──push──▶ GitHub Repo ──GitHub Actions──▶ Docker Hub ──pull──▶ Oracle VM
+    |                                 (build &                                    │
+    └─────────────── SSH ───────────── push) ◀─────────── webhooks ────────────────┘
+```
+
+╚════════════════════════════════════════════════════════════════════════════════════════╝
+
+### 1. Prérequis comptes
+
+1.1 Créez (ou utilisez) un compte **GitHub**.
+1.2 Créez (ou utilisez) un compte **Docker Hub**. Retenez :
+    – *NAMESPACE* : `alnyeck`
+    – *REPOSITORY* : `projetsmlops-3`
+
+### 2. Initialiser le dépôt Git local
+
+```bash
+depuis mon repertoire 'projetsmlops-3' sur mon disque local Windows
+git init
+git add .
+git commit -m "Initial commit – stack MLOps"
+git branch -M main
+git remote add origin https://github.com/alnyeck/projetsmlops-3.git
+git push -u origin main
+```
+
+*(remplacez `<votre_user>` par votre pseudo GitHub)*
+
+### 3. Créer les **secrets** GitHub nécessaires
+
+Dans **GitHub → Settings → Secrets → Actions** :
+
+| Nom du secret        | Valeur                                               |
+| -------------------- | ---------------------------------------------------- |
+| `DOCKERHUB_USERNAME` | votre identifiant Docker Hub: alnyeck                |
+| `DOCKERHUB_PASSWORD` | un **Access Token** Docker Hub (pas le mot de passe) |
+| `EMAIL_USERNAME`     | votre addresse email                                 |
+| `EMAIL_PASSWORD`     | le mot de passe email                                |
+| `SSH_HOST`           | IP publique de la VM: 192.168.56.101                 |
+
+
+> Pour créer l’Access Token : Docker Hub ► **Account Settings** ► **Security** ► **New Access Token** (scopes : `Write`).
+
+### 4. Ajouter le workflow GitHub Actions
+
+Créez `.github/workflows/ci-cd.yml` :
+
+```yaml
+name: CI‑CD Docker local
+
+on:
+  push:
+    branches: [ main, test ]
+
+jobs:
+  build-and-push:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Connexion à Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Définir le tag d’image
+        id: vars
+        run: echo "TAG=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+
+      - name: Build & Push de l’image Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/projetsmlops-3:${{ steps.vars.outputs.TAG }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: self-hosted
+    steps:
+      - name: Déploiement local avec docker-compose
+        run: |
+          cd /home/eleve/projetsmlops-3
+          docker compose pull
+          docker compose up -d
+
+  notify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.bell.net
+          server_port: 465
+          secure: true
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: ✅ CI/CD terminé avec succès
+          to: nyeck@sympatico.ca
+          from: GitHub Actions <nyeck@sympatico.ca>
+          body: |
+            Le workflow CI/CD dans le dépôt projetsmlops-3 s'est exécuté avec succès !
+```
 
 # 2. BUILD & LANCEMENT
 
@@ -489,7 +600,7 @@ cd install-docker
 chmod +x install-docker.sh
 ./install-docker.sh           # installe Docker + compose plugin v2
 apt install docker-compose
-cd /home/azureuser/
+cd /home/eleve/
 git clone https://github.com/alnyeck/projetsmlops-3.git
 cd projetsmlops-3/
 docker-compose pull
