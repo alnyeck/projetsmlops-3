@@ -507,7 +507,7 @@ Vous devez voir **6 services** : `postgres`, `mlflow`, `api`, `streamlit`, `p
 
 | Étape | Action                                                                                                                                                                                                                                              |
 | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1     | Visitez **Streamlit** : `http://<IP_VM>:8501`.<br>Choisissez un modèle, réglez `alpha` et (pour ElasticNet) `l1_ratio`, cliquez **Lancer l'entraînement**.<br>Le run démarre et apparaît instantanément dans **MLflow UI** (`http://<IP_VM>:5000`). |
+| 1     | Visitez **Streamlit** : `http://localhost:8501`.<br>Choisissez un modèle, réglez `alpha` et (pour ElasticNet) `l1_ratio`, cliquez **Lancer l'entraînement**.<br>Le run démarre et apparaît instantanément dans **MLflow UI** (`http://localhost:5000`). |
 | 2     | Testez l’API REST :                                                                                                                                                                                                                                 |
 
 *Depuis votre machine locale* :
@@ -530,6 +530,58 @@ Vous obtenez un JSON avec l’estimation de qualité.
 
 <br/>
 
+---
+
+## PHASE 3 — LANCEMENT DU PROJET
+
+Dans le terminal :
+
+```bash
+docker-compose up --build
+```
+
+Attendez que les 3 services soient bien démarrés : `postgres`, `mlflow`, `pgadmin`.
+
+---
+
+## ACCÈS AUX AUTRES INTERFACES
+
+### Interface MLflow :
+
+Ouvrir dans un navigateur :
+
+```
+http://localhost:5000
+```
+
+---
+
+### Interface pgAdmin :
+
+Ouvrir dans un navigateur :
+
+```
+http://localhost:8080
+```
+
+**Identifiants :**
+
+* Email : `admin@admin.com`
+* Mot de passe : `admin`
+
+**Ajout manuel de la base PostgreSQL dans pgAdmin :**
+
+1. Cliquez sur "Add New Server"
+2. Onglet "General" : Nom du serveur : `mlflow-db`
+3. Onglet "Connection" :
+
+   * Host name/address : `postgres`
+   * Maintenance database : `mlflow_db`
+   * Username : `mlflow`
+   * Password : `mlflow`
+4. Cliquez sur "Save"
+
+---
 # 4. POINTS D’AMÉLIORATION
 
 | Idée                         | Piste de mise en œuvre                                                                            |
