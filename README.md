@@ -480,7 +480,6 @@ networks:  # Nouveau réseau ajouté
 
 <br/>
 
-```
 ## MISE EN PLACE D’UNE PIPELINE CI/CD
 
 ### ╔════════════════════════════════ ASCII : Vue d’ensemble ═══════════════════════════════╗
