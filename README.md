@@ -1,4 +1,4 @@
-# GUIDE – MLOps **Red Wine Quality**
+# GUIDE – MLOps **Red Wine Quality** - Alain Nyeck
 
 Docker + MLflow + PostgreSQL + pgAdmin + Portainer + **FastAPI** + **Streamlit** + **CI/CD GitHub Actions** + **Docker Hub**
 
