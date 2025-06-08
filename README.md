@@ -5,7 +5,7 @@ Docker + MLflow + PostgreSQL + pgAdmin + Portainer + **FastAPI** + *
 > **Extension par rapport à la version précédente** :
 > – Ajout d’une API REST (FastAPI : port 8000)
 > – Ajout d’un tableau de bord interactif (Streamlit : port 8501)
-> – Possibilité de lancer – depuis le navigateur – des entraînements MLflow avec hyper‑paramètres choisis à la volée, d’observer les runs en temps réel et de servir les prédictions.
+> – Possibilité de lancer – depuis le navigateur – des entraînements MLflow avec hyper‑paramètres choisis à la volée, d’observer les runs en temps réel et de servir les prédictions. Le projet a été testé sur Oracle VM VirtualBox avec Ubuntu 22.04 et python 3.11. Le dépot Git correspondant se trouve ici: https://github.com/alnyeck/projetsmlops-3.git
 
 
 <br/>

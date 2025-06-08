@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="guide-%E2%80%93-mlops-red-wine-quality---alain-nyeck">GUIDE – MLOps <strong>Red Wine Quality</strong> - Alain Nyeck</h1>
+<p>Docker + MLflow + PostgreSQL + pgAdmin + Portainer + <strong>FastAPI</strong> + <strong>Streamlit</strong> + <strong>CI/CD GitHub Actions</strong> + <strong>Docker Hub</strong></p>
+<blockquote>
+<p><strong>Extension par rapport à la version précédente</strong> :
+– Ajout d’une API REST (FastAPI : port 8000)
+– Ajout d’un tableau de bord interactif (Streamlit : port 8501)
+– Possibilité de lancer – depuis le navigateur – des entraînements MLflow avec hyper‑paramètres choisis à la volée, d’observer les runs en temps réel et de servir les prédictions. Le projet a été testé sur Oracle VM VirtualBox avec Ubuntu 22.04 et python 3.11. Le dépot Git correspondant se trouve ici: https://github.com/alnyeck/projetsmlops-3.git</p>
+</blockquote>
+<br/>
+<h1 id="pr%C3%A9%E2%80%91requis">PRÉ‑REQUIS</h1>
+<table>
+<thead>
+<tr>
+<th>Élément</th>
+<th>Détails / Version minimale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VM</td>
+<td>Ubuntu 22.04 (Azure, AWS, GCP ou local) – IP publique obligatoire</td>
+</tr>
+<tr>
+<td>Ports ouverts</td>
+<td>5000 (MLflow) · 5432 (PostgreSQL) · 8080 (pgAdmin) · 9000 (Portainer)</td>
+</tr>
+<tr>
+<td>RAM conseillée</td>
+<td>4 Go (8 Go confortable)</td>
+</tr>
+<tr>
+<td>Docker Engine</td>
+<td>≥ 20.10</td>
+</tr>
+<tr>
+<td>docker‑compose</td>
+<td>≥ 1.29 (ou plugin v2)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="0-table-des-ports">0. TABLE DES PORTS</h1>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Port conteneur</th>
+<th>Port hôte</th>
+<th>Description courte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MLflow UI</td>
+<td>5000</td>
+<td>5000</td>
+<td>Suivi des expériences</td>
+</tr>
+<tr>
+<td>FastAPI</td>
+<td>8000</td>
+<td>8000</td>
+<td>API REST (train + predict)</td>
+</tr>
+<tr>
+<td>Streamlit</td>
+<td>8501</td>
+<td>8501</td>
+<td>Dashboard interactif</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>5432</td>
+<td>5432</td>
+<td>Base de données MLflow</td>
+</tr>
+<tr>
+<td>pgAdmin</td>
+<td>80</td>
+<td>8080</td>
+<td>GUI PostgreSQL</td>
+</tr>
+<tr>
+<td>Portainer</td>
+<td>9000</td>
+<td>9000</td>
+<td>Supervision conteneurs</td>
+</tr>
+</tbody>
+</table>
+<p>Assurez‑vous d’ouvrir <strong>5000, 8000, 8501, 8080, 9000</strong> (TCP entrants) dans votre pare‑feu / NSG.</p>
+<br/>
+<h1 id="1-fichiers-%C3%A0-cr%C3%A9er--modifier">1. FICHIERS À CRÉER / MODIFIER</h1>
+<pre class="hljs"><code><div>mlops-redwine/
+├── Dockerfile
+├── requirements.txt
+├── train_model.py
+├── api_app.py           &lt;-- FastAPI
+├── streamlit_app.py     &lt;-- Streamlit
+├── docker-compose.yml
+├── data/
+│   └── red-wine-quality.csv
+└── mlruns/
+</div></code></pre>
+<h3 id="11-requirementstxt-compl%C3%A9t%C3%A9">1.1 <code>requirements.txt</code> (complété)</h3>
+<pre class="hljs"><code><div>pandas
+numpy
+scikit-learn
+mlflow
+psycopg2-binary
+fastapi
+uvicorn[standard]
+streamlit
+</div></code></pre>
+<h3 id="12-dockerfile-un-seul-conteneur-%C2%AB-mlflow-%C2%BB-sachant-tout-faire">1.2 <code>Dockerfile</code> (un seul conteneur « mlflow » sachant tout faire)</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">FROM</span> python:<span class="hljs-number">3.11</span>-slim
+
+<span class="hljs-comment"># Installation des dépendances système (pour scikit-learn, pandas, etc.)</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    curl \
+    libpq-dev \
+    &amp;&amp; apt-get clean \
+    &amp;&amp; rm -rf /var/lib/apt/lists/*</span>
+
+<span class="hljs-comment"># Définir le dossier de travail</span>
+<span class="hljs-keyword">WORKDIR</span><span class="bash"> /app</span>
+
+<span class="hljs-comment"># Copier les fichiers du projet</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> . .</span>
+
+<span class="hljs-comment"># Mise à jour de pip et installation des packages Python requis</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> pip install --upgrade pip &amp;&amp; pip install -r requirements.txt</span>
+
+<span class="hljs-comment"># Définir le point d’entrée par défaut pour le conteneur</span>
+<span class="hljs-keyword">CMD</span><span class="bash"> [<span class="hljs-string">"bash"</span>]</span>
+
+</div></code></pre>
+<h3 id="13-trainmodelpy">1.3 <code>train_model.py</code></h3>
+<pre class="hljs"><code><div>
+<span class="hljs-keyword">import</span> argparse, os, sys
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd, numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> mlflow, mlflow.sklearn
+<span class="hljs-keyword">from</span> mlflow.models.signature <span class="hljs-keyword">import</span> infer_signature
+<span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split
+<span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> ElasticNet, Ridge, Lasso
+<span class="hljs-keyword">from</span> sklearn.ensemble <span class="hljs-keyword">import</span> RandomForestRegressor, GradientBoostingRegressor
+<span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> mean_squared_error, mean_absolute_error, r2_score
+
+<span class="hljs-comment"># ---------- 1. CLI ----------</span>
+cli = argparse.ArgumentParser()
+cli.add_argument(<span class="hljs-string">"--model"</span>, required=<span class="hljs-literal">True</span>,
+                 choices=[<span class="hljs-string">"elasticnet"</span>, <span class="hljs-string">"ridge"</span>, <span class="hljs-string">"lasso"</span>, <span class="hljs-string">"randomforest"</span>, <span class="hljs-string">"gbrt"</span>])
+cli.add_argument(<span class="hljs-string">"--alpha"</span>, type=float, default=<span class="hljs-number">0.5</span>)         <span class="hljs-comment"># utilisé par linéaires</span>
+cli.add_argument(<span class="hljs-string">"--l1_ratio"</span>, type=float, default=<span class="hljs-number">0.5</span>)      <span class="hljs-comment"># utilisé uniquement par ElasticNet</span>
+args = cli.parse_args()
+
+<span class="hljs-comment"># ---------- 2. MLflow ----------</span>
+tracking_uri = os.getenv(<span class="hljs-string">"MLFLOW_TRACKING_URI"</span>, <span class="hljs-string">"http://mlflow:5000"</span>)
+mlflow.set_tracking_uri(tracking_uri)
+experiment_name = <span class="hljs-string">f"mlops_redwine_<span class="hljs-subst">{args.model}</span>"</span>
+mlflow.set_experiment(experiment_name)
+
+<span class="hljs-comment"># ---------- 3. Données ----------</span>
+csv_path = <span class="hljs-string">"data/red-wine-quality.csv"</span>
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(csv_path):
+    sys.exit(<span class="hljs-string">f"Fichier introuvable : <span class="hljs-subst">{csv_path}</span>"</span>)
+df = pd.read_csv(csv_path, sep=<span class="hljs-string">';'</span>)  <span class="hljs-comment"># séparateur correct</span>
+
+X = df.drop(<span class="hljs-string">"quality"</span>, axis=<span class="hljs-number">1</span>)
+y = df[<span class="hljs-string">"quality"</span>]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="hljs-number">0.25</span>, random_state=<span class="hljs-number">42</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">log_metrics</span><span class="hljs-params">(y_true, y_pred)</span>:</span>
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-string">"rmse"</span>: np.sqrt(mean_squared_error(y_true, y_pred)),
+        <span class="hljs-string">"mae"</span>:  mean_absolute_error(y_true, y_pred),
+        <span class="hljs-string">"r2"</span>:   r2_score(y_true, y_pred)
+    }
+
+<span class="hljs-comment"># ---------- 4. Entraînement ----------</span>
+<span class="hljs-keyword">with</span> mlflow.start_run() <span class="hljs-keyword">as</span> run:
+    <span class="hljs-comment"># Sélection du modèle</span>
+    <span class="hljs-keyword">if</span> args.model == <span class="hljs-string">"elasticnet"</span>:
+        model = ElasticNet(alpha=args.alpha, l1_ratio=args.l1_ratio, random_state=<span class="hljs-number">42</span>)
+        mlflow.log_param(<span class="hljs-string">"l1_ratio"</span>, args.l1_ratio)
+        mlflow.log_param(<span class="hljs-string">"alpha"</span>, args.alpha)
+
+    <span class="hljs-keyword">elif</span> args.model == <span class="hljs-string">"ridge"</span>:
+        model = Ridge(alpha=args.alpha, random_state=<span class="hljs-number">42</span>)
+        mlflow.log_param(<span class="hljs-string">"alpha"</span>, args.alpha)
+
+    <span class="hljs-keyword">elif</span> args.model == <span class="hljs-string">"lasso"</span>:
+        model = Lasso(alpha=args.alpha, random_state=<span class="hljs-number">42</span>)
+        mlflow.log_param(<span class="hljs-string">"alpha"</span>, args.alpha)
+
+    <span class="hljs-keyword">elif</span> args.model == <span class="hljs-string">"randomforest"</span>:
+        model = RandomForestRegressor(n_estimators=<span class="hljs-number">100</span>, random_state=<span class="hljs-number">42</span>)
+
+    <span class="hljs-keyword">elif</span> args.model == <span class="hljs-string">"gbrt"</span>:
+        model = GradientBoostingRegressor(n_estimators=<span class="hljs-number">100</span>, learning_rate=<span class="hljs-number">0.1</span>, random_state=<span class="hljs-number">42</span>)
+
+    <span class="hljs-keyword">else</span>:
+        sys.exit(<span class="hljs-string">"Modèle non pris en charge."</span>)
+
+    <span class="hljs-comment"># Apprentissage</span>
+    model.fit(X_train, y_train)
+    preds = model.predict(X_test)
+
+    <span class="hljs-comment"># Log des métriques</span>
+    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> log_metrics(y_test, preds).items():
+        mlflow.log_metric(k, float(v))
+
+    <span class="hljs-comment"># Création de la signature</span>
+    input_example = X_train.iloc[:<span class="hljs-number">1</span>]
+    signature = infer_signature(X_train, model.predict(X_train))
+
+    <span class="hljs-comment"># Log du modèle avec signature et exemple</span>
+    mlflow.sklearn.log_model(model, <span class="hljs-string">"model"</span>, signature=signature, input_example=input_example)
+
+    <span class="hljs-comment"># Enregistrement dans le registry</span>
+    model_name = <span class="hljs-string">"RedWineModel"</span>
+    model_uri = <span class="hljs-string">f"runs:/<span class="hljs-subst">{run.info.run_id}</span>/model"</span>
+    mlflow.register_model(model_uri, model_name)
+
+    <span class="hljs-comment"># Passage à Production</span>
+    client = mlflow.tracking.MlflowClient()
+    latest_version = client.get_latest_versions(model_name, stages=[<span class="hljs-string">"None"</span>])[<span class="hljs-number">0</span>].version
+    client.transition_model_version_stage(
+        name=model_name,
+        version=latest_version,
+        stage=<span class="hljs-string">"Production"</span>,
+        archive_existing_versions=<span class="hljs-literal">True</span>
+    )
+
+    print(<span class="hljs-string">f"Modèle '<span class="hljs-subst">{args.model}</span>' enregistré et promu en Production."</span>)
+
+---
+
+<span class="hljs-comment">### 1.4 `api_app.py` — **FastAPI**</span>
+
+```python
+<span class="hljs-keyword">from</span> fastapi <span class="hljs-keyword">import</span> FastAPI
+<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Optional
+<span class="hljs-keyword">import</span> subprocess, uuid, os
+<span class="hljs-keyword">import</span> mlflow.pyfunc
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+
+app = FastAPI(title=<span class="hljs-string">"Red‑Wine MLOps API"</span>)
+
+<span class="hljs-comment"># ----------- TRAIN REQUEST -----------</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TrainRequest</span><span class="hljs-params">(BaseModel)</span>:</span>
+    model: str  <span class="hljs-comment"># elasticnet | ridge | lasso | randomforest | gbrt</span>
+    alpha: Optional[float] = <span class="hljs-literal">None</span>
+    l1_ratio: Optional[float] = <span class="hljs-literal">None</span>
+
+<span class="hljs-meta">@app.post("/train")</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">train</span><span class="hljs-params">(req: TrainRequest)</span>:</span>
+    run_id = str(uuid.uuid4())[:<span class="hljs-number">8</span>]
+    cmd = [
+        <span class="hljs-string">"python"</span>, <span class="hljs-string">"train_model.py"</span>,
+        <span class="hljs-string">"--model"</span>, req.model
+    ]
+    <span class="hljs-keyword">if</span> req.alpha <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        cmd += [<span class="hljs-string">"--alpha"</span>, str(req.alpha)]
+    <span class="hljs-keyword">if</span> req.model == <span class="hljs-string">"elasticnet"</span> <span class="hljs-keyword">and</span> req.l1_ratio <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        cmd += [<span class="hljs-string">"--l1_ratio"</span>, str(req.l1_ratio)]
+    
+    env = os.environ.copy()
+    env[<span class="hljs-string">"MLFLOW_TRACKING_URI"</span>] = env.get(<span class="hljs-string">"MLFLOW_TRACKING_URI"</span>, <span class="hljs-string">"http://mlflow:5000"</span>)
+    subprocess.Popen(cmd, env=env)
+    
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">"status"</span>: <span class="hljs-string">"started"</span>, <span class="hljs-string">"run_id"</span>: run_id, <span class="hljs-string">"cmd"</span>: <span class="hljs-string">" "</span>.join(cmd)}
+
+<span class="hljs-comment"># ----------- PREDICT REQUEST -----------</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PredictRequest</span><span class="hljs-params">(BaseModel)</span>:</span>
+    fixed_acidity: float
+    volatile_acidity: float
+    citric_acid: float
+    residual_sugar: float
+    chlorides: float
+    free_sulfur_dioxide: float
+    total_sulfur_dioxide: float
+    density: float
+    pH: float
+    sulphates: float
+    alcohol: float
+
+<span class="hljs-meta">@app.post("/predict")</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">predict</span><span class="hljs-params">(inp: PredictRequest)</span>:</span>
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-comment"># Dictionnaire reçu depuis le frontend</span>
+        input_dict = inp.dict()
+
+        <span class="hljs-comment"># Mapping des noms reçus (underscores) vers les noms attendus par le modèle (espaces)</span>
+        rename_map = {
+            <span class="hljs-string">"fixed_acidity"</span>: <span class="hljs-string">"fixed acidity"</span>,
+            <span class="hljs-string">"volatile_acidity"</span>: <span class="hljs-string">"volatile acidity"</span>,
+            <span class="hljs-string">"citric_acid"</span>: <span class="hljs-string">"citric acid"</span>,
+            <span class="hljs-string">"residual_sugar"</span>: <span class="hljs-string">"residual sugar"</span>,
+            <span class="hljs-string">"chlorides"</span>: <span class="hljs-string">"chlorides"</span>,
+            <span class="hljs-string">"free_sulfur_dioxide"</span>: <span class="hljs-string">"free sulfur dioxide"</span>,
+            <span class="hljs-string">"total_sulfur_dioxide"</span>: <span class="hljs-string">"total sulfur dioxide"</span>,
+            <span class="hljs-string">"density"</span>: <span class="hljs-string">"density"</span>,
+            <span class="hljs-string">"pH"</span>: <span class="hljs-string">"pH"</span>,
+            <span class="hljs-string">"sulphates"</span>: <span class="hljs-string">"sulphates"</span>,
+            <span class="hljs-string">"alcohol"</span>: <span class="hljs-string">"alcohol"</span>
+        }
+
+        <span class="hljs-comment"># Conversion du dictionnaire vers DataFrame avec les bons noms de colonnes</span>
+        renamed_input = {rename_map[k]: v <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> input_dict.items()}
+        X = pd.DataFrame([renamed_input])
+
+        <span class="hljs-comment"># Chargement du modèle promu en production</span>
+        model_uri = <span class="hljs-string">"models:/RedWineModel/Production"</span>
+        model = mlflow.pyfunc.load_model(model_uri)
+
+        <span class="hljs-comment"># Prédiction</span>
+        pred = model.predict(X)[<span class="hljs-number">0</span>]
+        <span class="hljs-keyword">return</span> {<span class="hljs-string">"quality_estimate"</span>: round(float(pred), <span class="hljs-number">2</span>)}
+
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> {<span class="hljs-string">"error"</span>: str(e)}
+
+</div></code></pre>
+<h3 id="15-streamlitapppy--dashboard">1.5 <code>streamlit_app.py</code> — <strong>Dashboard</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> streamlit <span class="hljs-keyword">as</span> st
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">from</span> urllib.parse <span class="hljs-keyword">import</span> urljoin
+
+st.set_page_config(page_title=<span class="hljs-string">"Red Wine Quality Trainer"</span>, layout=<span class="hljs-string">"centered"</span>)
+st.title(<span class="hljs-string">"🍷 Red Wine Quality MLOps App"</span>)
+
+<span class="hljs-comment"># ---------- Configuration de l'URL de l'API ----------</span>
+API_BASE_URL = os.getenv(<span class="hljs-string">"API_URL"</span>, <span class="hljs-string">"http://backend:8000"</span>)  <span class="hljs-comment"># Utilise la variable d'environnement ou la valeur par défaut</span>
+TRAIN_ENDPOINT = urljoin(API_BASE_URL, <span class="hljs-string">"/train"</span>)
+PREDICT_ENDPOINT = urljoin(API_BASE_URL, <span class="hljs-string">"/predict"</span>)
+
+<span class="hljs-comment"># ---------- 1. Paramètres d'entraînement ----------</span>
+<span class="hljs-keyword">with</span> st.form(<span class="hljs-string">"train_form"</span>):
+    st.header(<span class="hljs-string">"🔧 Entraînement du modèle"</span>)
+    model_type = st.selectbox(<span class="hljs-string">"Choisissez un modèle"</span>, [<span class="hljs-string">"elasticnet"</span>, <span class="hljs-string">"ridge"</span>, <span class="hljs-string">"lasso"</span>, <span class="hljs-string">"randomforest"</span>, <span class="hljs-string">"gbrt"</span>])
+    alpha = st.number_input(<span class="hljs-string">"Alpha"</span>, value=<span class="hljs-number">0.5</span>, step=<span class="hljs-number">0.01</span>)
+    l1_ratio = st.number_input(<span class="hljs-string">"L1 Ratio (ElasticNet uniquement)"</span>, value=<span class="hljs-number">0.5</span>, step=<span class="hljs-number">0.01</span>)
+    train_btn = st.form_submit_button(<span class="hljs-string">"Lancer l'entraînement"</span>)
+
+    <span class="hljs-keyword">if</span> train_btn:
+        payload = {<span class="hljs-string">"model"</span>: model_type}
+        <span class="hljs-keyword">if</span> model_type <span class="hljs-keyword">in</span> [<span class="hljs-string">"elasticnet"</span>, <span class="hljs-string">"ridge"</span>, <span class="hljs-string">"lasso"</span>]:
+            payload[<span class="hljs-string">"alpha"</span>] = alpha
+        <span class="hljs-keyword">if</span> model_type == <span class="hljs-string">"elasticnet"</span>:
+            payload[<span class="hljs-string">"l1_ratio"</span>] = l1_ratio
+
+        <span class="hljs-keyword">with</span> st.spinner(<span class="hljs-string">"Entraînement en cours..."</span>):
+            <span class="hljs-keyword">try</span>:
+                r = requests.post(TRAIN_ENDPOINT, json=payload, timeout=<span class="hljs-number">30</span>)
+                r.raise_for_status()
+                resp_json = r.json()
+                st.success(<span class="hljs-string">f"✅ Entraînement terminé: Run ID <span class="hljs-subst">{resp_json.get(<span class="hljs-string">'run_id'</span>, <span class="hljs-string">''</span>)}</span>"</span>)
+
+                <span class="hljs-keyword">if</span> <span class="hljs-string">"metrics"</span> <span class="hljs-keyword">in</span> resp_json:
+                    st.subheader(<span class="hljs-string">"📊 Résultats d'entraînement"</span>)
+                    metrics = resp_json[<span class="hljs-string">"metrics"</span>]
+                    cols = st.columns(<span class="hljs-number">3</span>)
+                    cols[<span class="hljs-number">0</span>].metric(<span class="hljs-string">"RMSE"</span>, round(metrics.get(<span class="hljs-string">"rmse"</span>, <span class="hljs-number">0</span>), <span class="hljs-number">4</span>))
+                    cols[<span class="hljs-number">1</span>].metric(<span class="hljs-string">"MAE"</span>, round(metrics.get(<span class="hljs-string">"mae"</span>, <span class="hljs-number">0</span>), <span class="hljs-number">4</span>))
+                    cols[<span class="hljs-number">2</span>].metric(<span class="hljs-string">"R²"</span>, round(metrics.get(<span class="hljs-string">"r2"</span>, <span class="hljs-number">0</span>), <span class="hljs-number">4</span>))
+
+            <span class="hljs-keyword">except</span> requests.exceptions.RequestException <span class="hljs-keyword">as</span> e:
+                st.error(<span class="hljs-string">f"❌ Erreur de connexion à l'API: <span class="hljs-subst">{str(e)}</span>"</span>)
+            <span class="hljs-keyword">except</span> ValueError <span class="hljs-keyword">as</span> e:
+                st.error(<span class="hljs-string">f"❌ Réponse JSON invalide: <span class="hljs-subst">{str(e)}</span>"</span>)
+
+<span class="hljs-comment"># ---------- 2. Prédiction ----------</span>
+st.header(<span class="hljs-string">"🔮 Prédiction de la qualité"</span>)
+
+input_fields = {
+    <span class="hljs-string">"fixed_acidity"</span>: (<span class="hljs-string">"Fixed acidity"</span>, <span class="hljs-number">5.0</span>),
+    <span class="hljs-string">"volatile_acidity"</span>: (<span class="hljs-string">"Volatile acidity"</span>, <span class="hljs-number">0.5</span>),
+    <span class="hljs-string">"citric_acid"</span>: (<span class="hljs-string">"Citric acid"</span>, <span class="hljs-number">0.5</span>),
+    <span class="hljs-string">"residual_sugar"</span>: (<span class="hljs-string">"Residual sugar"</span>, <span class="hljs-number">2.0</span>),
+    <span class="hljs-string">"chlorides"</span>: (<span class="hljs-string">"Chlorides"</span>, <span class="hljs-number">0.1</span>),
+    <span class="hljs-string">"free_sulfur_dioxide"</span>: (<span class="hljs-string">"Free sulfur dioxide"</span>, <span class="hljs-number">15.0</span>),
+    <span class="hljs-string">"total_sulfur_dioxide"</span>: (<span class="hljs-string">"Total sulfur dioxide"</span>, <span class="hljs-number">30.0</span>),
+    <span class="hljs-string">"density"</span>: (<span class="hljs-string">"Density"</span>, <span class="hljs-number">0.995</span>),
+    <span class="hljs-string">"pH"</span>: (<span class="hljs-string">"pH"</span>, <span class="hljs-number">3.5</span>),
+    <span class="hljs-string">"sulphates"</span>: (<span class="hljs-string">"Sulphates"</span>, <span class="hljs-number">0.5</span>),
+    <span class="hljs-string">"alcohol"</span>: (<span class="hljs-string">"Alcohol"</span>, <span class="hljs-number">10.0</span>)
+}
+
+inputs = {}
+<span class="hljs-keyword">for</span> field, (label, default) <span class="hljs-keyword">in</span> input_fields.items():
+    inputs[field] = st.number_input(label, value=default, step=<span class="hljs-number">0.01</span>)
+
+<span class="hljs-keyword">if</span> st.button(<span class="hljs-string">"Prédire la qualité"</span>):
+    <span class="hljs-keyword">with</span> st.spinner(<span class="hljs-string">"Calcul de la prédiction..."</span>):
+        <span class="hljs-keyword">try</span>:
+            response = requests.post(PREDICT_ENDPOINT, json=inputs, timeout=<span class="hljs-number">10</span>)
+            response.raise_for_status()
+
+            result = response.json()
+            <span class="hljs-keyword">if</span> <span class="hljs-string">"quality_estimate"</span> <span class="hljs-keyword">in</span> result:
+                st.success(<span class="hljs-string">f"🎯 Qualité estimée: <span class="hljs-subst">{result[<span class="hljs-string">'quality_estimate'</span>]:<span class="hljs-number">.1</span>f}</span>/10"</span>)
+            <span class="hljs-keyword">else</span>:
+                st.error(<span class="hljs-string">f"⚠️ Format de réponse inattendu: <span class="hljs-subst">{result}</span>"</span>)
+
+        <span class="hljs-keyword">except</span> requests.exceptions.RequestException <span class="hljs-keyword">as</span> e:
+            st.error(<span class="hljs-string">f"❌ Erreur de connexion: <span class="hljs-subst">{str(e)}</span>"</span>)
+        <span class="hljs-keyword">except</span> ValueError <span class="hljs-keyword">as</span> e:
+            st.error(<span class="hljs-string">f"❌ Réponse JSON invalide: <span class="hljs-subst">{str(e)}</span>"</span>)
+
+</div></code></pre>
+<h3 id="16-docker-composeyml-mis-%C3%A0-jour">1.6 <code>docker-compose.yml</code> (mis à jour)</h3>
+<pre class="hljs"><code><div><span class="hljs-attr">services:</span>
+  <span class="hljs-comment"># ---------- PostgreSQL ----------</span>
+  <span class="hljs-attr">postgres:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:14</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">POSTGRES_USER:</span> <span class="hljs-string">mlflow</span>
+      <span class="hljs-attr">POSTGRES_PASSWORD:</span> <span class="hljs-string">mlflow</span>
+      <span class="hljs-attr">POSTGRES_DB:</span> <span class="hljs-string">mlflow_db</span>
+    <span class="hljs-attr">ports:</span> <span class="hljs-string">["5432:5432"]</span>
+    <span class="hljs-attr">volumes:</span> <span class="hljs-string">[postgres_data:/var/lib/postgresql/data]</span>
+    <span class="hljs-attr">networks:</span>  <span class="hljs-comment"># Ajouté</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mlflow_network</span>
+
+  <span class="hljs-comment"># ---------- Backend MLflow + code commun ----------</span>
+  <span class="hljs-attr">mlflow:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">depends_on:</span> <span class="hljs-string">[postgres]</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">MLFLOW_TRACKING_URI:</span> <span class="hljs-string">http://mlflow:5000</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">&gt;
+      mlflow server
+      --backend-store-uri postgresql://mlflow:mlflow@postgres:5432/mlflow_db
+      --default-artifact-root /app/mlruns
+      --host 0.0.0.0
+</span>    <span class="hljs-attr">ports:</span> <span class="hljs-string">["5000:5000"]</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./mlruns:/app/mlruns</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./data:/app/data</span>
+    <span class="hljs-attr">networks:</span>  <span class="hljs-comment"># Ajouté</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mlflow_network</span>
+
+  <span class="hljs-comment"># ---------- FastAPI ----------</span>
+  <span class="hljs-attr">api:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">depends_on:</span> <span class="hljs-string">[mlflow]</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">MLFLOW_TRACKING_URI:</span> <span class="hljs-string">http://mlflow:5000</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">uvicorn</span> <span class="hljs-string">api_app:app</span> <span class="hljs-string">--host</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span> <span class="hljs-string">--port</span> <span class="hljs-number">8000</span> <span class="hljs-string">--reload</span>
+    <span class="hljs-attr">ports:</span> <span class="hljs-string">["8000:8000"]</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./data:/app/data</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./mlruns:/app/mlruns</span>
+    <span class="hljs-attr">networks:</span>  <span class="hljs-comment"># Ajouté</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mlflow_network</span>
+
+  <span class="hljs-comment"># ---------- Streamlit ----------</span>
+  <span class="hljs-attr">streamlit:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">depends_on:</span> <span class="hljs-string">[api]</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">STREAMLIT_SERVER_PORT:</span> <span class="hljs-number">8501</span>
+      <span class="hljs-attr">MLFLOW_TRACKING_URI:</span> <span class="hljs-string">http://mlflow:5000</span>
+      <span class="hljs-attr">API_URL:</span> <span class="hljs-string">http://api:8000</span>  <span class="hljs-comment"># Utilise le nom du service "api"</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">streamlit</span> <span class="hljs-string">run</span> <span class="hljs-string">streamlit_app.py</span> <span class="hljs-string">--server.port</span> <span class="hljs-number">8501</span> <span class="hljs-string">--server.address</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>
+    <span class="hljs-attr">ports:</span> <span class="hljs-string">["8501:8501"]</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./data:/app/data</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./mlruns:/app/mlruns</span>
+    <span class="hljs-attr">networks:</span>  <span class="hljs-comment"># Ajouté</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mlflow_network</span>
+
+  <span class="hljs-comment"># ---------- pgAdmin ----------</span>
+  <span class="hljs-attr">pgadmin:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">dpage/pgadmin4</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">PGADMIN_DEFAULT_EMAIL:</span> <span class="hljs-string">admin@admin.com</span>
+      <span class="hljs-attr">PGADMIN_DEFAULT_PASSWORD:</span> <span class="hljs-string">admin</span>
+    <span class="hljs-attr">ports:</span> <span class="hljs-string">["8080:80"]</span>
+    <span class="hljs-attr">volumes:</span> <span class="hljs-string">[pgadmin_data:/var/lib/pgadmin]</span>
+    <span class="hljs-attr">networks:</span>  <span class="hljs-comment"># Ajouté (optionnel)</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mlflow_network</span>
+
+  <span class="hljs-comment"># ---------- Portainer ----------</span>
+  <span class="hljs-attr">portainer:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">portainer/portainer-ce</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">-H</span> <span class="hljs-string">unix:///var/run/docker.sock</span>
+    <span class="hljs-attr">ports:</span> <span class="hljs-string">["9000:9000"]</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/var/run/docker.sock:/var/run/docker.sock</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">portainer_data:/data</span>
+    <span class="hljs-attr">networks:</span>  <span class="hljs-comment"># Ajouté (optionnel)</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mlflow_network</span>
+
+<span class="hljs-attr">volumes:</span>
+  <span class="hljs-attr">postgres_data:</span>
+  <span class="hljs-attr">pgadmin_data:</span>
+  <span class="hljs-attr">portainer_data:</span>
+
+<span class="hljs-attr">networks:</span>  <span class="hljs-comment"># Nouveau réseau ajouté</span>
+  <span class="hljs-attr">mlflow_network:</span>
+    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span>
+</div></code></pre>
+<br/>
+<h2 id="mise-en-place-dune-pipeline-cicd">MISE EN PLACE D’UNE PIPELINE CI/CD</h2>
+<h3 id="%E2%95%94%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90-ascii--vue-densemble-%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%90%E2%95%97">╔══════════════════════ ASCII : Vue d’ensemble ═══════════════════╗</h3>
+<pre class="hljs"><code><div> Développeur ──push──▶ GitHub Repo ──GitHub Actions──▶ Docker Hub ──pull──▶ Oracle VM
+    |                                 (build &amp;                                      │
+    └─────────────── SSH ───────────── push) ◀─────────── webhooks ────────────────┘
+</div></code></pre>
+<p>╚═══════════════════════════════════════════════════════════════════════╝</p>
+<h3 id="1-pr%C3%A9requis-comptes">1. Prérequis comptes</h3>
+<p>1.1 Créez (ou utilisez) un compte <strong>GitHub</strong>.
+1.2 Créez (ou utilisez) un compte <strong>Docker Hub</strong>. Retenez :
+    – <em>NAMESPACE</em> : <code>alnyeck</code>
+    – <em>REPOSITORY</em> : <code>projetsmlops-3</code></p>
+<h3 id="2-initialiser-le-d%C3%A9p%C3%B4t-git-local">2. Initialiser le dépôt Git local</h3>
+<pre class="hljs"><code><div>depuis mon repertoire <span class="hljs-string">'projetsmlops-3'</span> sur mon disque <span class="hljs-built_in">local</span> Windows
+git init
+git add .
+git commit -m <span class="hljs-string">"Initial commit – stack MLOps"</span>
+git branch -M main
+git remote add origin https://github.com/alnyeck/projetsmlops-3.git
+git push -u origin main
+</div></code></pre>
+<p><em>(remplacez <code>&lt;votre_user&gt;</code> par votre pseudo GitHub)</em></p>
+<h3 id="3-cr%C3%A9er-les-secrets-github-n%C3%A9cessaires">3. Créer les <strong>secrets</strong> GitHub nécessaires</h3>
+<p>Dans <strong>GitHub → Settings → Secrets → Actions</strong> :</p>
+<table>
+<thead>
+<tr>
+<th>Nom du secret</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DOCKERHUB_USERNAME</code></td>
+<td>votre identifiant Docker Hub: alnyeck</td>
+</tr>
+<tr>
+<td><code>DOCKERHUB_PASSWORD</code></td>
+<td>un <strong>Access Token</strong> Docker Hub (pas le mot de passe)</td>
+</tr>
+<tr>
+<td><code>EMAIL_USERNAME</code></td>
+<td>votre addresse email</td>
+</tr>
+<tr>
+<td><code>EMAIL_PASSWORD</code></td>
+<td>le mot de passe email</td>
+</tr>
+<tr>
+<td><code>SSH_HOST</code></td>
+<td>IP publique de la VM: 192.168.56.101</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Pour créer l’Access Token : Docker Hub ► <strong>Account Settings</strong> ► <strong>Security</strong> ► <strong>New Access Token</strong> (scopes : <code>Write</code>).</p>
+</blockquote>
+<h3 id="4-ajouter-le-workflow-github-actions">4. Ajouter le workflow GitHub Actions</h3>
+<p>Créez <code>.github/workflows/ci-cd.yml</code> :</p>
+<pre class="hljs"><code><div><span class="hljs-attr">name:</span> <span class="hljs-string">CI‑CD</span> <span class="hljs-string">Docker</span> <span class="hljs-string">local</span>
+
+<span class="hljs-attr">on:</span>
+  <span class="hljs-attr">push:</span>
+    <span class="hljs-attr">branches:</span> <span class="hljs-string">[</span> <span class="hljs-string">main,</span> <span class="hljs-string">test</span> <span class="hljs-string">]</span>
+
+<span class="hljs-attr">jobs:</span>
+  <span class="hljs-attr">build-and-push:</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">self-hosted</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">actions/checkout@v4</span>
+
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Connexion</span> <span class="hljs-string">à</span> <span class="hljs-string">Docker</span> <span class="hljs-string">Hub</span>
+        <span class="hljs-attr">uses:</span> <span class="hljs-string">docker/login-action@v3</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">username:</span> <span class="hljs-string">${{</span> <span class="hljs-string">secrets.DOCKERHUB_USERNAME</span> <span class="hljs-string">}}</span>
+          <span class="hljs-attr">password:</span> <span class="hljs-string">${{</span> <span class="hljs-string">secrets.DOCKERHUB_PASSWORD</span> <span class="hljs-string">}}</span>
+
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Définir</span> <span class="hljs-string">le</span> <span class="hljs-string">tag</span> <span class="hljs-string">d’image</span>
+        <span class="hljs-attr">id:</span> <span class="hljs-string">vars</span>
+        <span class="hljs-attr">run:</span> <span class="hljs-string">echo</span> <span class="hljs-string">"TAG=${GITHUB_SHA::8}"</span> <span class="hljs-string">&gt;&gt;</span> <span class="hljs-string">$GITHUB_OUTPUT</span>
+
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Build</span> <span class="hljs-string">&amp;</span> <span class="hljs-string">Push</span> <span class="hljs-string">de</span> <span class="hljs-string">l’image</span> <span class="hljs-string">Docker</span>
+        <span class="hljs-attr">uses:</span> <span class="hljs-string">docker/build-push-action@v5</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">context:</span> <span class="hljs-string">.</span>
+          <span class="hljs-attr">push:</span> <span class="hljs-literal">true</span>
+          <span class="hljs-attr">tags:</span> <span class="hljs-string">${{</span> <span class="hljs-string">secrets.DOCKERHUB_USERNAME</span> <span class="hljs-string">}}/projetsmlops-3:${{</span> <span class="hljs-string">steps.vars.outputs.TAG</span> <span class="hljs-string">}}</span>
+
+  <span class="hljs-attr">deploy:</span>
+    <span class="hljs-attr">needs:</span> <span class="hljs-string">build-and-push</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">self-hosted</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Déploiement</span> <span class="hljs-string">local</span> <span class="hljs-string">avec</span> <span class="hljs-string">docker-compose</span>
+        <span class="hljs-attr">run:</span> <span class="hljs-string">|
+          cd /home/eleve/projetsmlops-3
+          docker compose pull
+          docker compose up -d
+</span>
+  <span class="hljs-attr">notify:</span>
+    <span class="hljs-attr">needs:</span> <span class="hljs-string">deploy</span>
+    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Send</span> <span class="hljs-string">email</span> <span class="hljs-string">notification</span>
+        <span class="hljs-attr">uses:</span> <span class="hljs-string">dawidd6/action-send-mail@v3</span>
+        <span class="hljs-attr">with:</span>
+          <span class="hljs-attr">server_address:</span> <span class="hljs-string">smtp.mail.yahoo.com</span>
+          <span class="hljs-attr">server_port:</span> <span class="hljs-number">465</span>
+          <span class="hljs-attr">secure:</span> <span class="hljs-literal">true</span>
+          <span class="hljs-attr">username:</span> <span class="hljs-string">${{</span> <span class="hljs-string">secrets.EMAIL_USERNAME</span> <span class="hljs-string">}}</span>
+          <span class="hljs-attr">password:</span> <span class="hljs-string">${{</span> <span class="hljs-string">secrets.EMAIL_PASSWORD</span> <span class="hljs-string">}}</span>
+          <span class="hljs-attr">subject:</span> <span class="hljs-string">✅</span> <span class="hljs-string">CI/CD</span> <span class="hljs-string">terminé</span> <span class="hljs-string">avec</span> <span class="hljs-string">succès</span>
+          <span class="hljs-attr">to:</span> <span class="hljs-string">a_nyeck@yahoo.com</span>
+          <span class="hljs-attr">from:</span> <span class="hljs-string">${{</span> <span class="hljs-string">secrets.EMAIL_USERNAME</span> <span class="hljs-string">}}</span>
+          <span class="hljs-attr">body:</span> <span class="hljs-string">|
+            Le workflow CI/CD dans le dépôt projetsmlops-3 s'est exécuté avec succès !
+</span></div></code></pre>
+<h1 id="2-build--lancement">2. BUILD &amp; LANCEMENT</h1>
+<pre class="hljs"><code><div>sudo -s
+git <span class="hljs-built_in">clone</span> https://github.com/hrhouma/install-docker.git
+<span class="hljs-built_in">cd</span> install-docker
+chmod +x install-docker.sh
+./install-docker.sh           <span class="hljs-comment"># installe Docker + compose plugin v2</span>
+apt install docker-compose
+<span class="hljs-built_in">cd</span> /home/eleve/
+git <span class="hljs-built_in">clone</span> https://github.com/alnyeck/projetsmlops-3.git
+<span class="hljs-built_in">cd</span> projetsmlops-3/
+docker-compose pull
+docker-compose build --no-cache mlflow
+docker-compose up -d
+docker ps --format <span class="hljs-string">"table {{.Names}}\t{{.Ports}}"</span>
+</div></code></pre>
+<p>Vous devez voir <strong>6 services</strong> : <code>postgres</code>, <code>mlflow</code>, <code>api</code>, <code>streamlit</code>, <code>pgadmin</code>, <code>portainer</code>.</p>
+<br/>
+<h1 id="3-utilisation">3. UTILISATION</h1>
+<table>
+<thead>
+<tr>
+<th>Étape</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Visitez <strong>Streamlit</strong> : <code>http://localhost:8501</code>.<br>Choisissez un modèle, réglez <code>alpha</code> et (pour ElasticNet) <code>l1_ratio</code>, cliquez <strong>Lancer l'entraînement</strong>.<br>Le run démarre et apparaît instantanément dans <strong>MLflow UI</strong> (<code>http://localhost:5000</code>).</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Testez l’API REST :</td>
+</tr>
+</tbody>
+</table>
+<p><em>Depuis votre machine locale</em> :</p>
+<pre class="hljs"><code><div>curl -X POST http://&lt;IP_VM&gt;:8000/train \
+  -H <span class="hljs-string">"Content-Type: application/json"</span> \
+  -d <span class="hljs-string">'{"model":"ridge","alpha":0.4}'</span>
+</div></code></pre>
+<p><em>Prédiction rapide</em> :</p>
+<pre class="hljs"><code><div>curl -X POST http://&lt;IP_VM&gt;:8000/predict \
+  -H <span class="hljs-string">"Content-Type: application/json"</span> \
+  -d <span class="hljs-string">'{"alcohol":11.0,"volatile_acidity":0.6,"sulphates":0.75}'</span>
+</div></code></pre>
+<p>Vous obtenez un JSON avec l’estimation de qualité.</p>
+<br/>
+<hr>
+<h2 id="phase-3--lancement-du-projet">PHASE 3 — LANCEMENT DU PROJET</h2>
+<p>Dans le terminal :</p>
+<pre class="hljs"><code><div>docker-compose up --build
+</div></code></pre>
+<p>Attendez que les 3 services soient bien démarrés : <code>postgres</code>, <code>mlflow</code>, <code>pgadmin</code>.</p>
+<hr>
+<h2 id="acc%C3%A8s-aux-autres-interfaces">ACCÈS AUX AUTRES INTERFACES</h2>
+<h3 id="interface-mlflow">Interface MLflow :</h3>
+<p>Ouvrir dans un navigateur :</p>
+<pre class="hljs"><code><div>http://localhost:5000
+</div></code></pre>
+<hr>
+<h3 id="interface-pgadmin">Interface pgAdmin :</h3>
+<p>Ouvrir dans un navigateur :</p>
+<pre class="hljs"><code><div>http://localhost:8080
+</div></code></pre>
+<p><strong>Identifiants :</strong></p>
+<ul>
+<li>Email : <code>admin@admin.com</code></li>
+<li>Mot de passe : <code>admin</code></li>
+</ul>
+<p><strong>Ajout manuel de la base PostgreSQL dans pgAdmin :</strong></p>
+<ol>
+<li>
+<p>Cliquez sur &quot;Add New Server&quot;</p>
+</li>
+<li>
+<p>Onglet &quot;General&quot; : Nom du serveur : <code>mlflow-db</code></p>
+</li>
+<li>
+<p>Onglet &quot;Connection&quot; :</p>
+<ul>
+<li>Host name/address : <code>postgres</code></li>
+<li>Maintenance database : <code>mlflow_db</code></li>
+<li>Username : <code>mlflow</code></li>
+<li>Password : <code>mlflow</code></li>
+</ul>
+</li>
+<li>
+<p>Cliquez sur &quot;Save&quot;</p>
+</li>
+</ol>
+<hr>
+<h1 id="4-points-dam%C3%A9lioration">4. POINTS D’AMÉLIORATION</h1>
+<table>
+<thead>
+<tr>
+<th>Idée</th>
+<th>Piste de mise en œuvre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Signature MLflow</td>
+<td>Utiliser <code>mlflow.models.signature.infer_signature</code> pour logger <code>input_example</code> et la <code>signature</code>.✅</td>
+</tr>
+<tr>
+<td>Prediction via modèle MLflow</td>
+<td>Charger le dernier modèle avec <code>mlflow.pyfunc.load_model</code> dans <code>api_app.py</code>.                     ✅</td>
+</tr>
+<tr>
+<td>Authentification API</td>
+<td>Ajouter <code>fastapi.security</code> + JWT ou clé API simple.                                              ❌</td>
+</tr>
+<tr>
+<td>Monitoring</td>
+<td>Activer Prometheus + Grafana via Portainer pour CPU/RAM.                                         ❌</td>
+</tr>
+<tr>
+<td>GitHub Actions</td>
+<td>Ajouter GitHub Actions CI/CD (build + docker push).                                              ✅</td>
+</tr>
+</tbody>
+</table>
+<p>Note: ✅  Confirme que l'amélioration a été implémentée</p>
+<br/>
+<h1 id="5-notre-stack-mlops-est-pr%C3%AAte">5. Notre stack MLOps est prête !</h1>
+<ul>
+<li>Page Streamlit conviviale, API REST pour scripts externes, suivi MLflow complet, base PostgreSQL, pgAdmin, Portainer — le tout en <strong>un seul <code>docker-compose up -d</code></strong>.</li>
+</ul>
+
+</body>
+</html>
