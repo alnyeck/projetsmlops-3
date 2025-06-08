@@ -10,6 +10,17 @@ Docker + MLflow + PostgreSQL + pgAdmin + Portainer + **FastAPI** + *
 
 <br/>
 
+
+# PRÉ‑REQUIS
+
+| Élément        | Détails / Version minimale                                            |
+| -------------- | --------------------------------------------------------------------- |
+| VM             | Ubuntu 22.04 (Azure, AWS, GCP ou local) – IP publique obligatoire     |
+| Ports ouverts  | 5000 (MLflow) · 5432 (PostgreSQL) · 8080 (pgAdmin) · 9000 (Portainer) |
+| RAM conseillée | 4 Go (8 Go confortable)                                               |
+| Docker Engine  | ≥ 20.10                                                               |
+| docker‑compose | ≥ 1.29 (ou plugin v2)                                                 |
+
 # 0. TABLE DES PORTS
 
 | Service    | Port conteneur | Port hôte | Description courte         |
@@ -482,15 +493,15 @@ networks:  # Nouveau réseau ajouté
 
 ## MISE EN PLACE D’UNE PIPELINE CI/CD
 
-### ╔════════════════════════════════ ASCII : Vue d’ensemble ═══════════════════════════════╗
+### ╔══════════════════════ ASCII : Vue d’ensemble ═══════════════════╗
 
 ```
  Développeur ──push──▶ GitHub Repo ──GitHub Actions──▶ Docker Hub ──pull──▶ Oracle VM
-    |                                 (build &                                    │
+    |                                 (build &                                      │
     └─────────────── SSH ───────────── push) ◀─────────── webhooks ────────────────┘
 ```
 
-╚════════════════════════════════════════════════════════════════════════════════════════╝
+╚═══════════════════════════════════════════════════════════════════════╝
 
 ### 1. Prérequis comptes
 
@@ -695,13 +706,14 @@ http://localhost:8080
 ---
 # 4. POINTS D’AMÉLIORATION
 
-| Idée                         | Piste de mise en œuvre                                                                            |
-| ---------------------------- | ------------------------------------------------------------------------------------------------- |
-| Signature MLflow             | Utiliser `mlflow.models.signature.infer_signature` pour logger `input_example` et la `signature`. |
-| Prediction via modèle MLflow | Charger le dernier modèle avec `mlflow.pyfunc.load_model` dans `api_app.py`.                      |
-| Authentification API         | Ajouter `fastapi.security` + JWT ou clé API simple.                                               |
-| Monitoring                   | Activer Prometheus + Grafana via Portainer pour CPU/RAM.                                          |
-| Tests unitaires              | Ajouter `pytest` + GitHub Actions CI/CD (build + docker push).                                    |
+| Idée                         | Piste de mise en œuvre                                                                             |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------|
+| Signature MLflow             | Utiliser `mlflow.models.signature.infer_signature` pour logger `input_example` et la `signature`.✅|
+| Prediction via modèle MLflow | Charger le dernier modèle avec `mlflow.pyfunc.load_model` dans `api_app.py`.                     ✅|
+| Authentification API         | Ajouter `fastapi.security` + JWT ou clé API simple.                                              ❌|
+| Monitoring                   | Activer Prometheus + Grafana via Portainer pour CPU/RAM.                                         ❌|
+| GitHub Actions               | Ajouter GitHub Actions CI/CD (build + docker push).                                              ✅|
+Note: ✅  Confirme que l'amélioration a été implémentée
 
 <br/>
 
